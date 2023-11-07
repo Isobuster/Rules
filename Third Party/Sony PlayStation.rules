@@ -1,0 +1,73 @@
+\%			 ____                                  ____              __
+\%			/\  _`\                               /\  _`\           /\ \__					      version 1.1e
+\%			\ \ \L\_\     __     __  __     __    \ \ \/\ \     __  \ \  _\    __					 by Berion
+\%			 \/_\__ \   /'__`\  /\ \/\ \  /'__`\   \ \ \ \ \  /'__`\ \ \ \/  /'__`\
+\%			   /\ \L\ \/\ \L\.\_\ \ \_/ |/\  __/    \ \ \_\ \/\ \L\.\_\ \ \_/\ \L\.\_
+\%			   \ `\____\ \__/.\_\\ \___/ \ \____\    \ \____/\ \__/.\_\\ \__\ \__/.\_\
+\%			    \/_____/\/__/\/_/ \/__/   \/____/     \/___/  \/__/\/_/ \/__/\/__/\/_/
+\%			         ____     ____    ______  __      __  __       ____    ____
+\%			        /\  _`\  /\  _`\ /\  _  \/\ \  __/\ \/\ \     /\  _`\ /\  _`\
+\%			        \ \ \/\_\\ \ \L\ \ \ \L\ \ \ \/\ \ \ \ \ \    \ \ \L\_\ \ \L\ \
+\%			         \ \ \/_/_\ \ .  /\ \  __ \ \ \ \ \ \ \ \ \  __\ \  _\L\ \  . /
+\%			          \ \ \L\ \\ \ \\ \\ \ \/\ \ \ \_/ \_\ \ \ \L\ \\ \ \L\ \ \ \\ \
+\%			           \ \____/ \ \_\ \_\ \_\ \_\ `\___^___/\ \____/ \ \____/\ \_\ \_\
+\%			            \/___/   \/_/\/ /\/_/\/_/'\/__//__/  \/___/   \/___/  \/_/\/ /
+\%
+\%
+\% Place this script inside Plugins dir where You have installed IsoBuster. Go to Options > File System(s) > SIG and tick checkbox called:
+\% "Use custom defined rules".  If You want look for only game saves, choose also "Only custom defined rules".  After that use on selected
+\% track or partition "Find missing files and folders".  After signature scan end, new square "SIG" should appear with found data. None of
+\% the files will have original file names and will be duplicated with already visible data. That's the normal behavior and nature of file
+\% seeking by values patterns.
+
+\% =======================================================================================================================================
+\%	 Sony PlayStation Memory Card images
+\% =======================================================================================================================================
+
+\% VM1, MCR and several other extensions used by emulators are the same raw dumps of Memory Card. Just rename the files. ;)
+\% SAVERAM is actually combined two Memory Card images so signature scan will not found any, instead it shows it as separated VM1.
+
+\x31\x32\x33\x2D\x34\x35\x36\x2D\x53\x54\x44\x00\x00\x00\x00\x00\|.gme|134976
+\x56\x67\x73\x4D\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\|.mem|131136
+\x00\x50\x4D\x56\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\|.vmp|131200
+\x4D\x43\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\|.vm1|131072
+
+\% =======================================================================================================================================
+\%  Sony PlayStation Save Data
+\% =======================================================================================================================================
+
+\% Retrieve GameID and SubID from vaild saves written in memory card index.
+\% You can find single saves also in PSX VRAM uncompressed dumps.
+
+\x53\x43\x1?\|.raw
+
+\% =======================================================================================================================================
+\%  Sony PlayStation 2 Memory Card images
+\% =======================================================================================================================================
+
+\% Cannot determine if Memory Card images is ECC or None-ECC so both can be found and named VM2.
+\% Remember to rename extension regarding to card type, or else IsoBuster will not open it properly.
+\% ECC: 8650752*n (*.ps2, *.vm2), None-ECC: 8388608*n (*.bin, *.vmc).
+\% ECC: 528*n, None-ECC: 512*n.
+
+\x53\x6F\x6E\x79\x20\x50\x53\x32\x20\x4D\x65\x6D\x6F\x72\x79\x20\x43\x61\x72\x64\x20\x46\x6F\x72\x6D\x61\x74\x20\x??\x2E\x??\x2E\|.vm2
+
+\% =======================================================================================================================================
+\%  Sony PlayStation 2 Save Data meta files
+\% =======================================================================================================================================
+
+\% Single saves or other save resources cannot be retrieved by signature because they are data stream fully designed by game devs.
+\% By default, search is disabled. Remove "\%" in rule line if You need it.
+
+\% \x50\x53\x32\x44\x00\x00\x1C\x00\x00\x00\x00\x00\x10\x00\x00\x00\|.sys
+\% \x00\x00\x01\x00\x01\x00\x00\x00\|.ico
+
+\% =======================================================================================================================================
+\%  Sony PlayStation & PlayStation 2 exported saves
+\% =======================================================================================================================================
+
+\% In case of PSV, file name is part of validation (PS3 will reject different), however this information can be retrieved from header.
+
+\x00\x56\x53\x50\x00\x00\x00\x00\|.psv
+\x27\x84\x00\x00\x??\x00\x00\x00\|.psu
+
